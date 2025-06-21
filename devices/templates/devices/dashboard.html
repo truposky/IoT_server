@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dashboard IoT</title>
+    <!-- Bootstrap CSS (CDN) -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <style>
+      .indicator {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: gray;
+        display: inline-block;
+        margin-left: 10px;
+        vertical-align: middle;
+      }
+    </style>
+  </head>
+  <body class="bg-light">
+    <div class="container py-5">
+      <h1 class="mb-4">Panel de Control IoT</h1>
+      
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <button class="btn btn-primary me-3" onclick="enviarComando()">
+              Enviar TOGGLE
+            </button>
+            <div id="indicator" class="indicator"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Alert para mostrar el estado -->
+      <div id="resultado" class="alert alert-info d-none" role="alert">
+        Estado del dispositivo: <span id="estadoDispositivo"></span>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS (opcional, solo si necesitas funcionalidad JS de Bootstrap) -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    ></script>
+
+    <script>
+      // Conexión al WebSocket
+      const socket = new WebSocket("ws://localhost:8000/ws/devices/");
+      socket.onopen = () => console.log("WebSocket conectado");
+      socket.onerror = (error) => console.error("Error en WebSocket:", error);
+      socket.onclose = (event) => console.warn("WebSocket cerrado:", event);
+
+      socket.onmessage = function (event) {
+        const data = JSON.parse(event.data);
+        console.log("Mensaje recibido:", data);
+
+        // Cambiar el color del indicador y el texto del estado
+        if (parseInt(data.status) === 1) {
+          document.getElementById("indicator").style.backgroundColor = "green";
+          mostrarEstado("Encendido");
+        } else if (parseInt(data.status) === 0) {
+          document.getElementById("indicator").style.backgroundColor = "red";
+          mostrarEstado("Apagado");
+        } else {
+          console.log("Valor de status desconocido:", data.status);
+        }
+      };
+
+      function enviarComando() {
+        // Enviar comando TOGGLE vía WebSocket
+        const message = { command: "TOGGLE" };
+        socket.send(JSON.stringify(message));
+      }
+
+      function mostrarEstado(estado) {
+        const resultadoDiv = document.getElementById("resultado");
+        const estadoSpan = document.getElementById("estadoDispositivo");
+
+        estadoSpan.textContent = estado;
+        // Quita la clase "d-none" para mostrar la alerta
+        resultadoDiv.classList.remove("d-none");
+      }
+    </script>
+  </body>
+</html>
