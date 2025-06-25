@@ -5,7 +5,4 @@ from devices.consumers import DeviceConsumer
 
 application = ProtocolTypeRouter({
     "http": get_asgi_application(),
-    "websocket": URLRouter([
-        path("ws/devices/", DeviceConsumer.as_asgi()),
-    ]),
 })

@@ -2,3 +2,4 @@ venv/
 db.*
 __pycache__
 util_commands.txt
+iot_server/secretkey.py

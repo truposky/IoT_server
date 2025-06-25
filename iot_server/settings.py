@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-
+from secretkey import secret_key
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-dppr=7%u$ognhw-o&bxszbg)ldqqovu0^n0xbq@=&eyc2yiebi'
+SECRET_KEY = secret_key
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'channels',
     'devices',
     'django.contrib.admin',
@@ -69,8 +70,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'iot_server.wsgi.application'
-
+#WSGI_APPLICATION = 'iot_server.wsgi.application'
+ASGI_APPLICATION = "iot_server.asgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -125,6 +126,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ASGI_APPLICATION = 'iot_server.asgi.application'
+
 CHANNEL_LAYERS = {
     "default": {
      "BACKEND": "channels_redis.core.RedisChannelLayer",
