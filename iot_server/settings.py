@@ -11,12 +11,14 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+
 from decouple import config
 
 try:
     from secretkey import secret_key as dev_secret_key
 except ImportError:  # pragma: no cover - fallback for development only
     dev_secret_key = "django-insecure-placeholder"
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -140,3 +142,8 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
+# Optional override for the dashboard WebSocket URL.
+# Set WEBSOCKET_URL in your environment or settings file to force
+# a specific WebSocket endpoint in production deployments.
+WEBSOCKET_URL = os.environ.get("WEBSOCKET_URL")

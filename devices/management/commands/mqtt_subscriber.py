@@ -11,7 +11,7 @@ MQTT_PORT = 1883
 MQTT_TOPIC_STATUS = "devices/status"
 
 class Command(BaseCommand):
-    help = "Suscribe a mensajes MQTT de estado y los reenvía vía Django Channels"
+    help = "Subscribe to MQTT status messages and relay them through Django Channels"
 
     def handle(self, *args, **options):
         client = mqtt.Client()
