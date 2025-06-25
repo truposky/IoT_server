@@ -4,7 +4,7 @@ This project uses Django and Channels for IoT-related communication.
 
 ## Configuration
 
-`SECRET_KEY` and `DEBUG` settings are loaded from environment variables. For development you may create a `.env` file or export them in your shell before starting the server.
+`SECRET_KEY` and `DEBUG` settings are loaded from environment variables. You can manage these variables with [`python-decouple`](https://github.com/henriquebastos/python-decouple) using a `.env` file or export them in your shell.
 
 Example `.env` file:
 
@@ -13,7 +13,7 @@ SECRET_KEY=change-me
 DEBUG=True
 ```
 
-Load the environment variables with [`django-environ`](https://github.com/joke2k/django-environ) or similar, or simply `export` them in your shell:
+Install **python-decouple** and create a `.env` file, or simply `export` the variables in your shell:
 
 ```bash
 export SECRET_KEY=change-me
