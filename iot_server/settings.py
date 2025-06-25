@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 from secretkey import secret_key
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -135,3 +136,8 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
+# Optional override for the dashboard WebSocket URL.
+# Set WEBSOCKET_URL in your environment or settings file to force
+# a specific WebSocket endpoint in production deployments.
+WEBSOCKET_URL = os.environ.get("WEBSOCKET_URL")
