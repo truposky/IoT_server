@@ -1,29 +1,26 @@
-# # 1. Indica a Django dónde están tus settings
-# os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'iot_server.settings')
+"""ASGI config for iot_server project.
 
-# # 2. Inicializa Django (opcional, a veces no es necesario llamarlo manualmente)
-# django.setup()
+It exposes the ASGI callable as a module-level variable named ``application``.
 
-# # 3. Importa tu routing DESPUÉS de setdefault
-from devices.routing import websocket_urlpatterns
+For more information on this file, see
+https://docs.djangoproject.com/en/4.2/howto/deployment/asgi/
+"""
 
-# # 4. Crea la app ASGI para peticiones HTTP normales
-# django_asgi_app = get_asgi_application()
-
-# # 5. Combina HTTP y WebSocket
-# application = ProtocolTypeRouter({
-#     "http": django_asgi_app,
-#     "websocket": URLRouter(websocket_urlpatterns),
-# })
 import os
-from django.core.asgi import get_asgi_application
 import django
+from django.core.asgi import get_asgi_application
 from channels.auth import AuthMiddlewareStack
 from channels.routing import ProtocolTypeRouter, URLRouter
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'iot_server.settings')
+
+from devices.routing import websocket_urlpatterns
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "iot_server.settings")
 django.setup()
 
-application = ProtocolTypeRouter({
-    "http": get_asgi_application(),
-    "websocket": AuthMiddlewareStack(URLRouter(websocket_urlpatterns)),
-})
+application = ProtocolTypeRouter(
+    {
+        "http": get_asgi_application(),
+        "websocket": AuthMiddlewareStack(URLRouter(websocket_urlpatterns)),
+    }
+)
+
