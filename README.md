@@ -1,5 +1,17 @@
 # IoT Server
 
+This project exposes MQTT commands and websockets using Django Channels.
+
+## Management Command
+
+Use the built-in MQTT subscriber to forward device status messages to WebSocket consumers:
+
+```bash
+python manage.py mqtt_subscriber
+```
+
+This command connects to the local MQTT broker and broadcasts incoming status updates to WebSocket clients.
+=======
 This project is a simple Django application that demonstrates MQTT and WebSocket integration.
 
 ## WebSocket configuration
@@ -14,3 +26,4 @@ export WEBSOCKET_URL="wss://example.com/ws/devices/"
 ```
 
 When defined this value is used instead of the automatically constructed one.
+
